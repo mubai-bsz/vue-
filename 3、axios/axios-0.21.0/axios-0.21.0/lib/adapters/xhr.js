@@ -1,4 +1,5 @@
 'use strict';
+// xhr设置的是默认的配置信息
 
 var utils = require('./../utils');
 var settle = require('./../core/settle');
@@ -14,6 +15,7 @@ module.exports = function xhrAdapter(config) {
     var requestData = config.data;
     var requestHeaders = config.headers;
 
+    // 表单形式
     if (utils.isFormData(requestData)) {
       delete requestHeaders['Content-Type']; // Let the browser set it
     }
@@ -21,18 +23,22 @@ module.exports = function xhrAdapter(config) {
     var request = new XMLHttpRequest();
 
     // HTTP basic authentication
+    // 基本用户信息
     if (config.auth) {
       var username = config.auth.username || '';
       var password = config.auth.password ? unescape(encodeURIComponent(config.auth.password)) : '';
       requestHeaders.Authorization = 'Basic ' + btoa(username + ':' + password);
     }
 
+    // 路径信息
     var fullPath = buildFullPath(config.baseURL, config.url);
     request.open(config.method.toUpperCase(), buildURL(fullPath, config.params, config.paramsSerializer), true);
 
+    // 超时
     // Set the request timeout in MS
     request.timeout = config.timeout;
 
+    // 状态码
     // Listen for ready state
     request.onreadystatechange = function handleLoad() {
       if (!request || request.readyState !== 4) {
@@ -48,6 +54,7 @@ module.exports = function xhrAdapter(config) {
       }
 
       // Prepare the response
+      // 响应头、响应数据、响应体
       var responseHeaders = 'getAllResponseHeaders' in request ? parseHeaders(request.getAllResponseHeaders()) : null;
       var responseData = !config.responseType || config.responseType === 'text' ? request.responseText : request.response;
       var response = {
@@ -66,6 +73,7 @@ module.exports = function xhrAdapter(config) {
     };
 
     // Handle browser request cancellation (as opposed to a manual cancellation)
+    // 处理浏览器请求取消，而不是手动取消
     request.onabort = function handleAbort() {
       if (!request) {
         return;
