@@ -1,0 +1,80 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "author": "typicode"
+    },
+    {
+      "id": 2,
+      "title": "react-redux",
+      "author": "leige"
+    },
+    {
+      "title": "react-webpack",
+      "id": 3,
+      "author": "leige"
+    },
+    {
+      "title": "react",
+      "author": "leige",
+      "id": 4
+    },
+    {
+      "title": "react-webpack",
+      "author": "leige",
+      "id": 5
+    },
+    {
+      "title": "react-webpack",
+      "author": "leige",
+      "id": 6
+    },
+    {
+      "title": "react-webpack",
+      "author": "leige",
+      "id": 7
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    },
+    {
+      "body": "hello-world",
+      "postId": 2,
+      "id": 3
+    },
+    {
+      "body": "hello-world",
+      "postId": 2,
+      "id": 4
+    },
+    {
+      "body": "hello-world",
+      "postId": 2,
+      "id": 5
+    },
+    {
+      "body": "hello-world",
+      "postId": 2,
+      "id": 6
+    },
+    {
+      "body": "hello-world",
+      "postId": 2,
+      "id": 7
+    },
+    {
+      "id": 8
+    },
+    {
+      "id": 9
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
+}

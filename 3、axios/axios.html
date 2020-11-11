@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<button id="box1">GET</button>
+		<button id="box2">POST</button>
+		<button id="box3">PATCH</button>
+		<button id="box4">PUT</button>
+		<button id="box5">DELETE</button>
+		<script src="https://cdn.bootcdn.net/ajax/libs/axios/0.21.0/axios.min.js"></script>
+		<script>
+			const box1 = document.getElementById("box1");
+			const box2 = document.getElementById("box2");
+			const box3 = document.getElementById("box3");
+			const box4 = document.getElementById("box4");
+			const box5 = document.getElementById("box5");
+
+			box1.onclick = function () {
+				// axios作为对象请求,直接写请求方法与请求的地址
+				axios
+					.get("http://localhost:3000/posts")
+					.then((value) => {
+						// 是否接收成功看响应状态码200~299表示成功
+						console.log("value", value.data);
+					})
+					.catch((reason) => {
+						console.log("reason", reason);
+					});
+			};
+			box2.onclick = function () {
+				// axios作为函数请求，其中传递是一个对象，第一个值是请求的放法，第二个值是请求的地址
+				axios({
+					method: "POST",
+					url: "http://localhost:3000/comments",
+					data: {
+						body: "hello-world",
+						postId: 2,
+					},
+				})
+					.then((value) => {
+						console.log("value", value.data);
+					})
+					.catch((reason) => {
+						console.log("reason", reason);
+					});
+			};
+
+			box3.onclick = function () {
+				//axios作为函数请求
+				// patch请求,部分修改
+				axios({
+					method: "PATCH",
+					url: "http://localhost:3000/comments/3",
+					data: {
+						body: "hello-world-hi~~~~~~~",
+						postId: 2,
+					},
+				})
+					.then((value) => {
+						console.log("value", value.data);
+					})
+					.catch((reason) => {
+						console.log("reason", reason);
+					});
+			};
+
+			// box4
+			// put全部修改
+			box4.onclick = function () {
+				axios({
+					method: "PUT",
+					url: "http://localhost:3000/comments/2",
+					data: {
+						body: "hello-tomorrow",
+						postId: 2,
+					},
+				})
+					.then((value) => {
+						console.log("value", value.data);
+					})
+					.catch((reason) => {
+						console.log("reason", reason);
+					});
+			};
+
+			// box5
+			// delete
+			box5.onclick = function () {
+				axios({
+					method: "DELETE",
+					url: "http://localhost:3000/comments/2",
+
+				})
+					.then((value) => {
+						console.log("value", value.data);
+					})
+					.catch((reason) => {
+						console.log("reason", reason);
+					});
+			};
+		</script>
+	</body>
+</html>

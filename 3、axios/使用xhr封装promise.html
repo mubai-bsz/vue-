@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Axios</title>
+	</head>
+	<body>
+		<button id="btn1">btn1</button>
+		<button id="btn2">btn2</button>
+		<script>
+			// ajax请求
+			// const btn1 = document.getElementById("btn1");
+			// btn1.onclick = function () {
+			// 	// ajax请求过程
+			// 	// 1、创建xhr对象
+			// 	const xhr = new XMLHttpRequest();
+			// 	// 2、绑定onReadyStateChange事件
+			// 	xhr.onreadystatechange = function () {
+			// 		// 判断状态码，如果状态码是4，表明执行成功
+			// 		if (xhr.readyState === 4 && xhr.status >= 200 && xhr.status < 300) {
+			// 			console.log(JSON.parse(xhr.responseText)); //json格式的文本
+			// 			console.log(xhr);
+			// 		}
+			// 	};
+			// 	// 3、设置请求信息（主要是地址、请求方法等），使用open方法
+			// 	xhr.open("GET", "http://localhost:3000/posts");
+			// 	// 4、发送请求
+			// 	xhr.send();
+			// };
+
+			const btn1 = document.getElementById("btn1");
+			const btn2 = document.getElementById("btn2");
+			// 封装axios
+			function axios({ method, url, data, params }) {
+				return new Promise((resolve, reject) => {
+					// 这里把传入的方法全部转为大写的,下面自己写的旧的大写的，但是传进来的却不一定是大写的，那么就会导致错误
+					method = method.toUpperCase();
+					// 1、创建xhr对象
+					const xhr = new XMLHttpRequest();
+					// 2、绑定onreadystatechange事件
+					xhr.onreadystatechange = function () {
+						/* 
+              xhr.readyState:
+              0 :初始化状态
+              1 :代表open调用，但send方法还未调用（没有发送请求）
+              2 :代表send方法调用，并且接受到了部分响应信息（响应首行和响应头：状态码就在其中）
+              3 :代表接受了部分响应体数据，（如果响应体数据较小就全部接受。但是数据如果比较大，就只接受一部分）
+              4 :代表全部接受完成
+            
+            */
+						// 判断响应码是否为4，不为4表明请求不成功
+						if (xhr.readyState === 4) {
+							// 响应码为4，表明响应一定是有返回的，但是是否为成功还是失败,所以加一个判断来验证一下，状态码在200-300 说明成功
+							if (xhr.status >= 200 && xhr.status < 300) {
+								// 响应成功的话会返回下面的内容
+								const response = {
+									// 这三个是xhr自带的
+									request: xhr,
+									status: xhr.status,
+									data: JSON.parse(xhr.responseText),
+								};
+								resolve(response);
+							} else {
+								// 响应失败
+								console.log("error", xhr);
+								reject("error");
+							}
+						}
+					};
+
+					/*
+			         通常情况下：
+			         GET\DELETE请求，只会有查询字符串参数(queryString)
+			            POST\PUT\PATCH请求，既可以有请求实体参数，也可以有查询字符串参数
+			            查询字符串案例理解：
+			            本来是数组格式的，但是现在要把它转化为后面的字符串形式
+			         params:{name:'jack',age} ---> url?name=jack&age=18
+			       */
+					let qs = "";
+					if (params) {
+						//提取params中所有属性名称为一个数组
+						// ['name':'age']
+						qs = Object.keys(params)
+							.reduce((p, c) => {
+								const value = params[key];
+								return p + `${key0}=${value}&`;
+							}, "?")
+							.slice(0, -1);
+					}
+					// 3、设置请求信息（请求地址）open方法
+					xhr.open(method, url + qs);
+
+					// 这里定义请求实体参数，是为了 POST\PUT\PATCH而使用的
+					let body = "";
+					if (
+						(method === "POST" || method === "PUT" || method === "PATCH") &&
+						data
+					) {
+						//  进入到这里说明是上面的三种情况之一 ，有请求头
+						// 设置请求头
+						xhr.setRequestHeader("content-type", "application//json");
+						body = JSON.stringify(data);
+					}
+					// 4、发送请求
+					xhr.send(body);
+				});
+			}
+
+			btn1.onclick = function () {
+				// axios作为函数请求，其中传递是一个对象，第一个值是请求的放法，第二个值是请求的地址
+				axios({
+					method: "get",
+					url: "http://localhost:3000/comments",
+				})
+					.then((value) => {
+						console.log("value", value.data);
+					})
+					.catch((reason) => {
+						console.log("reason", reason);
+					});
+			};
+			btn2.onclick = function () {
+				// axios作为函数请求，其中传递是一个对象，第一个值是请求的放法，第二个值是请求的地址
+				axios({
+					method: "POST",
+					url: "http://localhost:3000/comments",
+					data: {
+						body: "hello-world",
+						postId: 2,
+					},
+				})
+					.then((value) => {
+						console.log("value", value.data);
+					})
+					.catch((reason) => {
+						console.log("reason", reason);
+					});
+			};
+		</script>
+	</body>
+</html>

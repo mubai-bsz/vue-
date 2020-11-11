@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<script src="./手写promise.js"></script>
+		<script>
+			Promise.resolve(
+				new Promise((resolve, reject) => {
+					setTimeout(() => {
+						resolve("ok");
+					}, 3000);
+				})
+			)
+				.then((data) => {
+					console.log(data, "success");
+				})
+				.catch((err) => {
+					console.log(err, "error");
+				});
+		</script>
+	</body>
+</html>
