@@ -82,7 +82,7 @@ Axios.prototype.request = function request(config) {
 		// 每一次遍历都会从数组中移除前面两个，这样循环就会有结束的条件了，不会是一个死循环了
 		promise = promise.then(chain.shift(), chain.shift());
 	}
-
+  // 返回用来指定成功或失败的promise
 	return promise;
 };
 

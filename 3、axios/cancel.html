@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<button id="btn1">发送请求</button>
+		<button id="btn2">取消请求</button>
+		<script src="https://cdn.bootcdn.net/ajax/libs/axios/0.21.0/axios.min.js"></script>
+		<script>
+			const oBtn1 = document.getElementById("btn1");
+			const oBtn2 = document.getElementById("btn2");
+
+			/* 		const CancelToken = axios.CancelToken;
+					//  指的是取消哪一个请求
+					const source = CancelToken.source();
+					oBtn1.onclick = function () {
+						axios({
+							url: "http://localhost:3000/comments",
+							cancelToken: source.token,
+						})
+							.then((value) => {
+								console.log("value", value);
+							})
+							.catch((reason) => {
+								console.log("reason", reason);
+							});
+					};
+
+					// 取消请求
+					oBtn2.onclick = function () {
+						source.cancel("我要取消请求啦，这就是我的理由~~~");
+			     }; */
+
+			// 第二种写法
+
+			let cancel = null;
+			oBtn1.onclick = function () {
+				axios({
+					url: "http://localhost:3000/comments",
+					cancelToken: new axios.CancelToken(function (c) {
+						cancel = c;
+					}),
+				})
+					.then((value) => {
+						console.log("value", value);
+					})
+					.catch((reason) => {
+						console.log("reason", reason);
+					});
+			};
+
+			// 取消请求
+			oBtn2.onclick = function () {
+				cancel(
+					"我要取消请求啦，这里要写的是取消的理由，没有理由，这就是我的理由~~~"
+				);
+			};
+		</script>
+	</body>
+</html>
