@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>03_计算属性和监视</title>
-  </head>
-  <body>
-    <!--
+	<head>
+		<meta charset="UTF-8" />
+		<title>03_计算属性和监视</title>
+	</head>
+	<body>
+		<!--
       1. 计算属性
         在computed属性对象中定义计算属性的方法
         在页面中使用{{方法名}}来显示计算的结果
@@ -16,14 +16,93 @@
         通过getter/setter实现对属性数据的显示和监视
         计算属性存在缓存, 多次读取只执行一次getter计算
     -->
-    <div id="app">
-      姓: <input type="text" placeholder="First Name" /><br />
-      名: <input type="text" placeholder="Last Name" /><br />
-      姓名1: <input type="text" placeholder="Full Name1" /><br />
-      姓名2: <input type="text" placeholder="Full Name2" /><br />
-    </div>
+		<div id="app">
+			姓:
+			<input type="text" placeholder="First Name" v-model="FirstName" /><br />
+			名: <input type="text" placeholder="Last Name" v-model="LastName" /><br />
+			姓名1:
+			<input type="text" placeholder="Full Name1" v-model="FullName" /><br />
+			姓名2:
+			<input type="text" placeholder="Full Name2" :value="FullName1" /><br />
+			姓名2:
+			<input type="text" placeholder="Full Name3" :value="FullName3" /><br />
+		</div>
 
-    <script type="text/javascript" src="../js/vue.js"></script>
-    <script type="text/javascript"></script>
-  </body>
+		<script type="text/javascript" src="../js/vue.js"></script>
+		<script type="text/javascript">
+			let person = {
+				firstName: "li",
+				lastName: "yunlong",
+			};
+			// 使用传统js方法定义对象上的属性
+			Object.defineProperty(person, "fullName", {
+				configurable: false, //当且仅当该属性的 configurable 键值为 true 时，该属性的描述符才能够被改变，同时该属性也能从对应的对象上被删除。默认为false
+				enumerable: true, //当且仅当该属性的 enumerable 键值为 true 时，该属性才会出现在对象的枚举属性中。默认false
+
+				get() {
+					// 属性的 getter 函数，如果没有 getter，则为 undefined。当访问该属性时，会调用此函数。执行时不传入任何参数，但是会传入 this 对象（由于继承关系，这里的this并不一定是定义该属性的对象）。该函数的返回值会被用作属性的值。
+					return this.firstName + " " + this.lastName;
+				},
+				set(newValue) {
+					// 属性的 setter 函数，如果没有 setter，则为 undefined。当属性值被修改时，会调用此函数。该方法接受一个参数（也就是被赋予的新值），会传入赋值时的 this 对象。默认为 undefined。
+
+					const [firstName, lastName] = newValue.split(" ");
+					this.firstName = firstName;
+					this.lastName = lastName;
+				},
+			});
+			// 直接修改属性值
+			person.fullName = "zhang hexiang";
+			console.log(person);
+		</script>
+
+		<script>
+			const vm = new Vue({
+				el: "#app",
+				data: {
+					FirstName: "zhao",
+					LastName: "zilong",
+					fullName: "zhao zilong",
+					FullName3: "zhao zilong",
+				},
+				// 计算属性
+				computed: {
+					FullName: {
+						// fullName属性的读取的方法
+						get() {
+							return this.FirstName + " " + this.LastName;
+						},
+						// fullName属性的设置方法
+						set(newValue) {
+							const [FirstName, LastName] = newValue.split(" ");
+							// vue可以直接更新data数据，同时用户界面也会发生变化（响应式）
+							this.FirstName = FirstName;
+							this.LastName = LastName;
+						},
+					},
+
+					// 只读的计算属性
+					FullName1() {
+						// 没有设置，直接获取信息，相当于get
+						return this.FirstName + " " + this.LastName;
+					},
+				},
+
+				//watch 监视属性
+				// 监视data中的属性，一旦属性发生变化，就会调用其中相应函数
+				watch: {
+					FirstName(newVal) {
+						const names = this.FullName3.split(" ");
+						names[0] = newVal;
+						this.FullName3 = names.join(" ");
+					},
+					LastName(newVal) {
+						const names = this.FullName3.split(" ");
+						names[1] = newVal;
+						this.FullName3 = names.join("");
+					},
+				},
+			});
+		</script>
+	</body>
 </html>
