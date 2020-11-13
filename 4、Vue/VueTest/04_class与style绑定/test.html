@@ -31,14 +31,15 @@
 			<!-- 单个动态类名，用字符串的格式 -->
 			<!-- <p v-bind:class="isRed ? 'red':'green'">这是一段文字~</p> -->
 
-			<!-- 多个动态类名，用字符串格式,使用{}括起来 -->
+			<!-- 多个动态类名，用对象格式,使用{}括起来 -->
 			<p v-bind:class="{ red:isRed,green:!isRed}">这是一段文字~</p>
-
+			<!-- 数组格式 -->
+			<p :class="['fontSize','red']">hello-world</p>
 			<button @click="changeColor">改变颜色</button>
 
-      <h2>2. style绑定</h2>
-      <!-- 字体大小的单位在这里加上 -->
-			<p :style="{'fontSize':fontSize+'px'}">这是一段文字~</p>
+			<h2>2. style绑定</h2>
+			<!-- 字体大小的单位在这里加上 -->
+			<p :style="{'fontSize':fontSize+'px', 'color':'blue'}">这是一段文字~</p>
 			<input type="text" placeholder="请输入字体大小" v-model="fontSize" />
 		</div>
 
