@@ -15,14 +15,34 @@
       5. 理解vue的mvvm实现
     -->
 		<div id="root">
-      <!-- {{}}   名为插值语法、双大括号表达式 -->
-			<h1>{{msg}}</h1>
+			<!-- {{}}   名为插值语法、双大括号表达式 -->
+      <h1>{{msg}}</h1>
+      <input type="text" v-model='msg'>
 		</div>
-    <script src="../vueJs/vue.min.js"></script>
-    <!-- 引入这个文件，那么在全局中就会有一个函数vue -->
+		<script src="../js/vue.min.js"></script>
+		<!-- vue.min.js压缩后的文件，生产环境使用 -->
+		<!-- 引入这个文件，那么在全局中就会有一个函数vue -->
 		<script>
-      // vm就是vue的实例对象
-	/* 		const vm = new Vue({
+      /* 
+        1、new Vue 配置对象
+
+        2、模板：
+          模板页面：HTML + CSS + JS
+
+          - 双大括号表达式（插值语法）
+          语法：{{js表达式}}
+          作用：用来显示js动态数据的
+          如果在js表达式中涉及到‘变量’  去vue的配置中去找（vue的实例化对象上找）
+
+          指令语法：
+          语法：v-xxx=“js表达式”
+          v-model 用作双向数据绑定 （数据既可以从js流向页面，又可以从页面流向js）
+
+
+
+      */
+			// vm就是vue的实例对象
+			/* 		const vm = new Vue({
     // 配置对象：属性名固定的对象
         el: "#root", //el element元素，用来获取dom元素
         // data为数据，用来渲染到页面上的

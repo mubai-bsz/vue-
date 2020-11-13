@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>02_模板语法</title>
-  </head>
-  <body>
-    <!--
+	<head>
+		<meta charset="UTF-8" />
+		<title>02_模板语法</title>
+	</head>
+	<body>
+		<!--
       1. 模板的理解:
         动态的html页面
         包含了一些JS语法代码
@@ -28,12 +28,43 @@
         简洁写法:
           @click='xxx'
       -->
-    <div id="app">
-      <h2>1. 双大括号表达式</h2>
+		<div id="app">
+			<h2>1. 双大括号表达式</h2>
+			<p>{{aaa}}</p>
+			<p>{{flag ? 1111111 : 2222222222}}</p>
+			<!-- 可以书写三运算符 -->
 
-      <h2>2. 指令一: 强制数据绑定</h2>
+			<h2>2. 指令一: 强制数据绑定</h2>
+			<!-- 绑定后为单项数据流 -->
+			<input type="text" v-bind:value="num" />
+			<!-- 简写 -->
+			<input type="text" :value="num" />
 
-      <h2>3. 指令二: 绑定事件监听</h2>
-    </div>
-  </body>
+			<h2>3. 指令二: 绑定事件监听</h2>
+
+			<button v-on:click="handleChange">按钮1</button>
+			<button @mousemove="mousemove">按钮2</button>
+		</div>
+		<script src="../js/vue.js"></script>
+		<script>
+			const mu = new Vue({
+				el: "#app",
+				data: {
+					aaa: "aaaaaa",
+					flag: true,
+					num: 1235,
+				},
+				methods: {
+					handleChange() {
+						console.log("`````````````111--------");
+            console.log(this);
+            // this指向组件实例，在这里指向vm（vue实例）
+					},
+					mousemove() {
+						console.log("哈哈哈哈哈");
+					},
+				},
+			});
+		</script>
+	</body>
 </html>
