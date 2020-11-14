@@ -1,22 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>08_条件渲染</title>
-  </head>
-  <body>
-    <!--
+	<head>
+		<meta charset="UTF-8" />
+		<title>08_条件渲染</title>
+	</head>
+	<body>
+		<!--
       1. 条件渲染指令
-        v-if
-        v-else
-        v-show
+        v-if ：直接对DOM元素进行操作，为true时，直接在DOM树种删除DOM元素
+        v-else：与if配合使用，当if是false是，显示。后面没有=“” 表示默认是true
+        v-show：显示隐藏，使用display方法，元素还在DOM树上
       2. 比较v-if与v-show
         如果需要频繁切换 v-show 较好
+        因为v-if需要插入和移除DOM元素，性能方面来说稍微差一点
+        如果不需要频繁的切换，只使用一次的话，v-if，这个会使得DOM元素少一点，进行重绘重排的话性能好一点
       -->
 
-    <div id="app "></div>
+		<div id="app">
+			<p v-if="isShow">今天好心情</p>
+			<p v-else>心情好，身体好，吃嘛嘛香，身体倍儿棒</p>
+			<p v-show="isShow">天天好心情</p>
+			<button @click="handleShow">点击切换</button>
+		</div>
 
-    <script type="text/javascript" src="../js/vue.js"></script>
-    <script type="text/javascript"></script>
-  </body>
+		<script type="text/javascript" src="../js/vue.js"></script>
+		<script type="text/javascript">
+			const vm = new Vue({
+				el: "#app",
+				data: {
+					isShow: true,
+				},
+				methods: {
+					handleShow() {
+						this.isShow = !this.isShow;
+					},
+				},
+			});
+		</script>
+	</body>
 </html>
