@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>06_列表渲染</title>
-</head>
-<body>
-
-<!--
+	<head>
+		<meta charset="UTF-8" />
+		<title>06_列表渲染</title>
+	</head>
+	<body>
+		<!--
 1. 列表显示
   数组: v-for / index
   对象: v-for / key
@@ -15,16 +14,80 @@
   替换item
 -->
 
-<div id="demo">
-  <h2>测试: v-for 遍历数组</h2>
+		<div id="demo">
+			<h2>测试: v-for 遍历数组</h2>
+			<ul>
+				<li v-for="(item,index) in users" :key="item.id">
+					{{item.id}} - {{item.name}} - {{item.age}}
+					<button @click="del(item.id)">删除</button>
+					<button @click="update(item.id)">修改</button>
+				</li>
+			</ul>
 
-  <h2>测试: v-for 遍历对象</h2>
+			<h2>测试: v-for 遍历对象</h2>
+			<ul>
+				<!-- 使用v-for遍历对象时，v-for后面是（key，value），不能是其他的，并且后面的key是唯一的 -->
+				<li v-for="(key,value) in person" :key="key">{{key}} - {{value}}</li>
+			</ul>
+		</div>
 
-</div>
+		<script type="text/javascript" src="../js/vue.js"></script>
+		<script type="text/javascript">
+			new Vue({
+				el: "#demo",
+				data: {
+					users: [
+						{ id: 1, name: "huage", age: 30 },
+						{ id: 2, name: "jinnge", age: 33 },
+						{ id: 3, name: "leige", age: 34 },
+					],
+					person: {
+						name: "hu-yang",
+						age: 1000,
+						area: "north",
+					},
+				},
+				methods: {
+					del(id) {
+						/*
+              返回一个新数组，不会修改原数组
+              map     返回新数组特点：长度不变，值变
+              filter  返回新数组特点：长度变，值不变
+              reduce  返回特点：长度变，值也变
+            */
+						this.users = this.users.filter((users) => users.id !== id);
+					},
+					update(id) {
+						// 这个方法是为了给age值加1 的 ，先遍历对象中的值，然后拿到age这个属性，最后加1
+						/*
 
-<script type="text/javascript" src="../js/vue.js"></script>
-<script type="text/javascript">
+			       this.users.map((users) => {
+							if (users.id === id) {
+								 users.age++;
+			             //  直接使用的是users这个数组的引用地址，所以，这里使用map方法虽然会返回一个新的数组，但是没有接收，而是直接修改原来数组上 的值，这种逻辑与下面的逻辑类似
+							}
+						});
 
-</script>
-</body>
+			      */
+						/*  // find() 方法返回数组中满足提供的测试函数的第一个元素的值。
+			         // 这种方式操作起来性能更高一定，只需要找到所需要的值就可以了，而不用去遍历数组中所有的数据
+			         // user与users指向是同一个地址值，所以，修改了user中的数据后，users中的数据也会变化
+						const user = this.users.find((user) => user.id === id);
+						user.age++;
+					}, */
+
+						this.users = this.users.map((user) => {
+							if (user.id === id) {
+								return {
+									...user,
+									age: ++user.age,
+								};
+							}
+							return user;
+						});
+					},
+				},
+			});
+		</script>
+	</body>
 </html>
