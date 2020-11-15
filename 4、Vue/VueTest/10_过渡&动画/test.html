@@ -1,11 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>10_过渡&动画1</title>
-</head>
-<body>
-<!--
+	<head>
+		<meta charset="UTF-8" />
+		<title>10_过渡&动画1</title>
+		<style>
+			/* 显示 */
+			.v-leave {
+				transform: translateX(0);
+			}
+			.v-leave-active {
+				transform: translateX(0);
+				transition: transform 2s;
+			}
+			/* 显示的最终位置 */
+			.v-leave-to {
+				transform: translateX(100px);
+			}
+
+			/* 隐藏 元素最开始的位置*/
+			.v-enter {
+				transform: translateX(100px);
+			}
+			.v-enter-active {
+				transform: translateX(0);
+				transition: transform 2s;
+			}
+      /* 隐藏的最终位置 */
+			.v-enter-to {
+				transform: translateX(0);
+			}
+
+       /* 显示 */
+       .scale-leave {
+        transform: scale(1) translateX(0);
+      }
+      /* 显示到隐藏的过程 */
+      .scale-leave-active {
+        transform: scale(2) translateX(-200px);
+        transition: transform 2s;
+      }
+      /* 隐藏 */
+      .scale-leave-to {
+        transform: scale(2) translateX(-200px);
+      }
+		</style>
+	</head>
+	<body>
+		<!--
 1. vue动画的理解
   操作css的trasition或animation
   vue会给目标元素添加/移除特定的class
@@ -20,10 +61,24 @@
   xxx-enter: 指定隐藏时的样式
 -->
 
+		<div id="app">
+			<transition name='scale'>
+				<p v-show="isShow">明天你好</p>
+			</transition>
+			<transition>
+				<p v-show="isShow">快努力奔跑</p>
+			</transition>
+			<button @click="isShow = !isShow">anniu</button>
+		</div>
 
-<script type="text/javascript" src="../js/vue.js"></script>
-<script type="text/javascript">
-
-</script>
-</body>
+		<script type="text/javascript" src="../js/vue.js"></script>
+		<script type="text/javascript">
+			new Vue({
+				el: "#app",
+				data: {
+					isShow: true,
+				},
+			});
+		</script>
+	</body>
 </html>
