@@ -1,18 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>06_列表渲染_过滤与排序</title>
-</head>
-<body>
-<!--
+	<head>
+		<meta charset="UTF-8" />
+		<title>06_列表渲染_过滤与排序</title>
+	</head>
+	<body>
+		<!--
 1. 列表过滤
 2. 列表排序
 -->
+		<div id="app">
+			<input type="text" placeholder="请输入搜索内容" v-model="searchText" />
+			<ul>
+				<li v-for="item in searchUsers" :key="item.id">
+					{{item.id}} - {{item.name}} - {{item.age}}
+				</li>
+			</ul>
+			<button @click="orderType = 1">年龄升序</button>
+			<button @click="orderType = -1">年龄降序</button>
+			<button @click="orderType = 0">原本顺序</button>
+		</div>
+		<script type="text/javascript" src="../js/vue.js"></script>
+		<script type="text/javascript">
+			new Vue({
+				el: "#app",
+				data: {
+					users: [
+						{ id: 1, name: "jack", age: 38 },
+						{ id: 2, name: "rose", age: 16 },
+						{ id: 3, name: "tom", age: 27 },
+						{ id: 4, name: "jerry", age: 40 },
+						{ id: 5, name: "lucy", age: 22 },
+						{ id: 6, name: "lilei", age: 29 },
+					],
+					searchText: "",
+					// 升序：1 降序：-1 原本顺序 0
+					orderType: 0,
+				},
+				// 需求1：在输入框中输入内容，可以直接搜索到相关的信息，因为是动态的数据，需要用到计算属性
+				methods: {
+					sort(orderType) {
+						this.orderType = orderType;
+					},
+				},
+				computed: {
+					searchUsers() {
+						// 输入条件时，根据条件显示数据
+						const filterUsers = this.users.filter((user) => {
+							return user.name.includes(this.searchText);
+						});
+						// 在没有输入时，显示原本的数据
+						if (this.orderType === 0) return filterUsers;
 
-<script type="text/javascript" src="../js/vue.js"></script>
-<script type="text/javascript">
-
-</script>
-</body>
+						// 排序  点击不同的按钮进行不同的排序
+						const sortUsers = filterUsers.sort((a, b) => {
+							return this.orderType === 1 ? a.age - b.age : b.age - a.age;
+						});
+						return sortUsers;
+					},
+				},
+			});
+		</script>
+	</body>
 </html>
