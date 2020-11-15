@@ -1,33 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>09_Vue实例_生命周期</title>
-</head>
-<body>
-<!--
+	<head>
+		<meta charset="UTF-8" />
+		<title>09_Vue实例_生命周期</title>
+	</head>
+	<body>
+		<!--
 1. vue对象的生命周期
   1). 初始化显示
-    * beforeCreate()
-    * created()
-    * beforeMount()
-    * mounted()
+    * beforeCreate()  在数据代理之前触发，所以此时不能操作data等数据
+    * created()   
+    * beforeMount()  在挂载之前（页面渲染之前），所以此时不能操作DOM
+    * mounted()  
+        特别重要：
+          发送请求、设置定时器、绑定事件等一次性的任务
   2). 更新状态
     * beforeUpdate()
     * updated()
   3). 销毁vue实例: vm.$destory()
     * beforeDestory()
+      做收尾工作：清除定时器、解绑事件等任务
     * destoryed()
 2. 常用的生命周期方法
   created()/mounted(): 发送ajax请求, 启动定时器等异步任务
   beforeDestory(): 做收尾工作, 如: 清除定时器
 -->
 
-<div>
+		<div id="app">
+			<p>{{num}}</p>
+			<!-- 只有一个语句时，可以直接写在事件后面，减少代码难度 -->
+			<button @click="num++">按钮</button>
+			<button @click="$destroy()">go die</button>
+			<!-- $方法是实例化上的属性专有的方法 -->
+		</div>
 
-</div>
+		<script type="text/javascript" src="../js/vue.js"></script>
+		<script type="text/javascript">
+			new Vue({
+				el: "#app",
+				data: {
+					num: 1,
+					test: 123,
+				},
+				beforeCreate() {
+					// 在数据代理之前触发（数据代理：指将data中的数据代理到this上）
+					// 在此时不能够访问data、method、computed等方法
+					console.log("beforeCreate", this.test);
+				},
+				created() {
+					// 数据代理之后触发
+					console.log("created", this.test);
+				},
+				beforeMount() {
+					// 挂载之前。(页面渲染之前)
+					// 在这个阶段不能操作dom
+					console.log("beforeMount", this.test);
+				},
+				mounted() {
+					// 挂载之后，（页面渲染之后）可以直接操作dom
+					console.log("mounted", this.test);
+				},
 
-<script type="text/javascript" src="../js/vue.js"></script>
-<script type="text/javascript"></script>
-</body>
+				beforeUpdate() {
+					// 数据更新触发
+					console.log("beforeUpdate", this.num);
+				},
+				updated() {
+					console.log("update", this.num);
+				},
+				beforeDestroy() {
+					console.log("beforeDestroy", this.num);
+				},
+				destroyed() {
+					console.log("destroyed", this.num);
+				},
+			});
+		</script>
+	</body>
 </html>

@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>07_事件处理</title>
-</head>
-<body>
-<!--
+	<head>
+		<meta charset="UTF-8" />
+		<title>07_事件处理</title>
+	</head>
+	<body>
+		<!--
 1. 绑定监听:
   v-on:xxx="fun"
   @xxx="fun"
@@ -20,19 +20,65 @@
   .enter : 操作的是enter键
 -->
 
-<div id="example">
+		<div id="example">
+			<h2>1. 绑定监听</h2>
+			<!-- 如果事件函数不传参时，只有一位默认的参数，就是event -->
+			<button @click="handleClick1">1111</button>
+			<!-- 如果事件函数传参时，可以直接写入，但是event当做参数传进去时，必须要带$符，这样才能被解析-->
+			<button @click="handleClick2(1,2,3,$event)">2222</button>
 
-  <h2>1. 绑定监听</h2>
+			<h2>2. 事件修饰符</h2>
+			<!-- .prevent阻止事件的默认行为 ,简写方式，直接在click后面加上  .prevent即可实现注重默认事件的效果-->
+			<a @click="handleClick3" href="http://www.baidu.com">baibu</a>
+			<a @click.prevent="handleClick4" href="http://www.baidu.com">baibu</a>
 
-  <h2>2. 事件修饰符</h2>
+			<!-- 阻止冒泡 -->
+			<ul @click="handleClick5">
+				<!-- 直接在li的点击事件上写上event.stopPropagation()即可阻止冒泡 -->
+				<!-- 简写方法：直接在click后面加上  .stop 即可达到与上面同样的效果 -->
+				<li @click.stop="handleClick6">111</li>
+				<!-- @click.stop.prevent 这种写法直接组织了冒泡事件，但是同时也阻止了原本的事件委托效果，即默认事件 -->
+				<li @click.stop.prevent>222</li>
+				<li>333</li>
+			</ul>
+      <h2>3. 按键修饰符</h2>
+      <!-- 使用@keyup.关键字码  这种方法，可以直接在输入时获取到自己想要的效果 -->
+      <input type="text" @keyup.13="handleClick7" />
+      <input type="text" @keyup.enter="handleClick7" />
+		</div>
 
-  <h2>3. 按键修饰符</h2>
+		<script type="text/javascript" src="../js/vue.js"></script>
+		<script type="text/javascript">
+			new Vue({
+				el: "#example",
+				methods: {
+					handleClick1(e) {
+						console.log(e);
+						console.log(arguments);
+					},
+					handleClick2(a, b, c, event) {
+						console.log(event);
+						console.log(arguments);
+					},
+					handleClick3(event) {
+						event.preventDefault();
+					},
+					handleClick4(event) {},
 
-</div>
+					handleClick5(event) {
+						console.log(555);
+						// event.stopPropagation();
+					},
+					handleClick6() {
+						console.log(666);
+						// event.stopPropagation();
+					},
 
-<script type="text/javascript" src="../js/vue.js"></script>
-<script type="text/javascript">
-
-</script>
-</body>
+					handleClick7(event) {
+						console.log(event.keyCode);
+					},
+				},
+			});
+		</script>
+	</body>
 </html>
