@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>17_插件</title>
+	</head>
+	<body>
+		<div id="app">
+			<p v-upper-text="msg"></p>
+			<p>{{date | formatDate('YYYY-MM-DD HH:mm:ss')}}</p>
+		</div>
+		<script type="text/javascript" src="../js/vue.js"></script>
+		<script type="text/javascript" src="./myPlugin.js"></script>
+		<script src="https://cdn.bootcdn.net/ajax/libs/dayjs/1.9.4/dayjs.min.js"></script>
+		<script>
+			// 引入插件的使用，必须要在new Vue之前使用
+			Vue.use(MyPlugin);
+
+			new Vue({
+				el: "#app",
+				data: {
+					msg: "Hello-World",
+					date: Date.now(),
+				},
+				mounted() {
+					Vue.globalMethod();
+					this.$instanceMethod();
+				},
+			});
+		</script>
+	</body>
+</html>

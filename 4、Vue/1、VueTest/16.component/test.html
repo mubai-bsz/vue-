@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>component</title>
+	</head>
+	<body>
+		<div id="app">
+      <!-- 使用组件 -->
+      <!-- 这里只能使用用-连接的命名，不能使用大驼峰命名法 -->
+			<test-component></test-component>
+			<!-- <TestComponent></TestComponent> -->
+		</div>
+		<script type="text/javascript" src="../js/vue.js"></script>
+		<script>
+			// 定义组件
+			const TestComponent = Vue.extend({
+				// 组件的配置对象（和new Vue传入的配置对象基本是一致的）
+				data() {
+					// 这里使用的是函数，不能使用对象，否则会报错的
+					// 返回值是data数据
+					return {
+						num: 0,
+					};
+				},
+				methods: {
+					add() {
+						this.num++;
+					},
+				},
+				// 组件模板页面（就是要渲染的页面）
+				template:
+					"<div> <p>{{num}}</P> <button @click='add'>组件按钮</button> </div>",
+			});
+
+			// 注册组件
+			const vm = new Vue({
+				el: "#app",
+
+				components: {
+					// 前面的是注册组件时的命名，后面的是定义的组件的名，其中后面的名字必须是大驼峰命名法前面的有两种方法
+					// "test-component": TestComponent,
+					TestComponent: TestComponent,
+				},
+			});
+		</script>
+	</body>
+</html>

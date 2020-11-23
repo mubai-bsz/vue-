@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>component</title>
+	</head>
+	<body>
+		<div id="app">
+			<text-component></text-component>
+		</div>
+		<script src="../js/vue.js"></script>
+		<script>
+			// 1、定义组件
+			// 2、注册组件
+			// 3、渲染根标签
+			Vue.component("TextComponent", {
+				data() {
+					return {
+						// 返回值就是data数据
+						num: 0,
+					};
+				},
+				methods: {
+					add() {
+						this.num++;
+					},
+				},
+				// 组件要渲染的页面
+
+				template:
+					"<div> <p>{{num}}</p> <button @click='add'>num++</button></div>",
+			});
+
+			//
+			new Vue({
+				el: "#app",
+				// 组件注册,在这里注册组件的对象的名字一定要加上s，为复数
+			});
+		</script>
+	</body>
+</html>

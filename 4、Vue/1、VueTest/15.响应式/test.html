@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>响应式</title>
+	</head>
+	<body>
+		<div id="app">
+			<p>{{msg}}</p>
+			<p>{{num}}</p>
+			<button @click="add">add</button>
+			<button @click="update">update</button>
+			<ul>
+				<li v-for="(value,key) in person" :key="key">{{key}} - {{value}}</li>
+			</ul>
+			<ul>
+				<li v-for="item in persons">
+					{{item.id}} - {{item.name}} -{{item.time}}
+				</li>
+			</ul>
+		</div>
+		<script src="../js/vue.js"></script>
+		<script>
+			new Vue({
+				el: "#app",
+				data: {
+					msg: "hello-world",
+					num: 0,
+					person: {
+						name: "huahua",
+						age: 18,
+						sex: "男",
+					},
+					persons: [
+						{ id: 1, name: "hello", time: 55 },
+						{ id: 2, name: "world", time: 65 },
+					],
+				},
+				methods: {
+					add() {
+						// 非data原始数据，不是响应式
+						this.xxx = 124;
+					},
+					update() {
+						// 双向传输，是响应式
+						this.msg += "~";
+						this.num++;
+						// Vue.set(对象, 属性名, 属性值);
+						this.$set(this.person, "t", 175);
+						this.persons.push({ id: 3, name: "tom", time: 23 });
+					},
+				},
+			});
+		</script>
+	</body>
+</html>
