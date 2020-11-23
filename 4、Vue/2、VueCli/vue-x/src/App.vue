@@ -1,48 +1,72 @@
 <template>
-  <div>
-    <p>clicked: {{ $store.state.count }} times, count is xxx</p>
-    <select v-model="num">
-      <option :value="1">1</option>
-      <option :value="2">2</option>
-      <option :value="3">3</option>
-    </select>
-    <button @click="increment">+</button>
-    <button @click="decrement">-</button>
-    <button @click="incrementIfOdd">incrementIfOdd</button>
-    <button @click="incrementAsync">incrementAsync</button>
+  <div class="todo-container">
+    <div class="todo-wrap">
+      <TodoHeader />
+      <TodoList />
+      <TodoFooter />
+    </div>
   </div>
 </template>
 
 <script>
-/* 
-组件操作vuex
-1、读
-2、写
-*/
+// 引入组件
+import TodoHeader from "./views/TodoHeader";
+import TodoList from "./views/TodoList";
+import TodoFooter from "./views/TodoFooter";
+
 export default {
   name: "App",
-  data() {
-    return {
-      num: 1,
-    };
-  },
-  methods: {
-    increment() {
-      // 更新vuex数据 --> 页面调用dispatch方法，触发actions函数，第一个是要更新触发的函数名，第二个是告诉这个函数要加几
-      this.$store.dispatch("increment", this.num);
-    },
-    decrement() {
-      this.$store.dispatch("decrement", this.num);
-    },
-    incrementIfOdd() {
-      this.$store.dispatch("incrementIfOdd", this.num);
-    },
-    incrementAsync() {
-      this.$store.dispatch("incrementAsync", this.num);
-    },
+
+  components: {
+    TodoHeader,
+    TodoList,
+    TodoFooter,
   },
 };
-</script>
+</script>>
 
 <style>
+body {
+  background: #fff;
+}
+
+.btn {
+  display: inline-block;
+  padding: 4px 12px;
+  margin-bottom: 0;
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 1px 2px rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+}
+
+.btn-danger {
+  color: #fff;
+  background-color: #da4f49;
+  border: 1px solid #bd362f;
+}
+
+.btn-danger:hover {
+  color: #fff;
+  background-color: #bd362f;
+}
+
+.btn:focus {
+  outline: none;
+}
+
+/*app*/
+.todo-container {
+  width: 600px;
+  margin: 0 auto;
+}
+.todo-container .todo-wrap {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
 </style>
