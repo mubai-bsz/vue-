@@ -1,12 +1,33 @@
 <template>
   <div class="todo-header">
-    <input type="text" placeholder="请输入你的任务名称，按回车键确认" />
+    <input
+      type="text"
+      placeholder="请输入你的任务名称，按回车键确认"
+      v-model="task"
+      @keyup.enter="add"
+    />
   </div>
 </template>
 
 <script>
+import { mapMutations } from "vuex";
+import { ADD_TODO } from "../../store/mutations-types";
 export default {
   name: "TodoHeader",
+  data() {
+    return {
+      task: "",
+    };
+  },
+  methods: {
+    ...mapMutations([ADD_TODO]),
+    add() {
+      const { task } = this;
+      if (!task) return;
+      this.ADD_TODO(task);
+      this.task = "";
+    },
+  },
 };
 </script>
 

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>Title</title>
+	</head>
+	<body>
+		<div id="test">尚硅谷IT教育</div>
+
+		<div id="demo">
+			<ul>
+				<li>test1</li>
+				<li>test2</li>
+				<li>test3</li>
+			</ul>
+		</div>
+
+		<!--
+1. [].slice.call(lis): 将伪数组转换为真数组
+2. node.nodeType: 得到节点类型
+3. Object.defineProperty(obj, propertyName, {}): 给对象添加属性(指定描述符)
+4. Object.keys(obj): 得到对象自身可枚举属性组成的数组
+5. obj.hasOwnProperty(prop): 判断prop是否是obj自身的属性
+6. DocumentFragment: 文档碎片(高效批量更新多个节点)
+-->
+
+		<script type="text/javascript">
+			// 1. [].slice.call(lis): 将伪数组转换为真数组
+
+			// 2. node.nodeType: 得到节点类型
+			// 3. Object.defineProperty(obj, propertyName, {}): 给对象添加属性(指定描述符)
+			// 4. Object.keys(obj): 得到对象自身可枚举属性组成的数组
+			// 5. obj.hasOwnProperty(prop): 判断prop是否是obj自身的属性
+			// 6. DocumentFragment: 文档碎片(高效批量更新多个节点)
+
+			// 1、创建文档碎片节点
+			// 与document类似，只是操作他的时候是在内存中进行的，不会影响到页面
+			const fragment = document.createDocumentFragment();
+
+			// 2、操作真实的DOM元素，添加到文档碎片节点中
+			const app = document.getElementById("app");
+
+			let child;
+			// 先赋值child = app.firstChild
+			// 在判断child是否存在
+			while ((child = app.firstChild)) {
+				fragment.appendChild(child);
+			}
+
+			// 3、操作文档碎片节点，修改里面的值
+			const list = fragment.childNodes[1].children;
+			[].slice.call(list).forEach((li) => {
+				li.textContent = li.textContent + "~~~~~";
+			});
+
+			// 添加节点中生效
+			app.appendChild(fragment);
+		</script>
+	</body>
+</html>

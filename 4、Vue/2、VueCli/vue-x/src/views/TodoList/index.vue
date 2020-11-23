@@ -1,14 +1,17 @@
 <template>
   <ul class="todo-main">
-    <TodoItem />
+    <TodoItem v-for="todo in todos" :key="todo.id" :todo="todo" />
   </ul>
 </template>
 
 <script>
 import TodoItem from "../TodoItem";
+import { mapState } from "vuex";
 export default {
   name: "TodoList",
-
+  computed: {
+    ...mapState(["todos"]),
+  },
   components: {
     TodoItem,
   },
