@@ -10,6 +10,30 @@
   -->
 </head>
 <body>
-</body>
+  <div id="app">
+    <p>{{num}}</p>
+    <button v-on:click="update">更新</button>
+  </div>
+  <script src="./js/observer.js"></script>
+  <script src="./js/watcher.js"></script>
+  <script src="./js/compile.js"></script>
+  <script src="./js/mvvm.js"></script>
+  <script>
+    /*
+      响应式：当你更新数据时，数据变，页面也变
+    */
+    debugger;
+    new MVVM({
+      el: "#app",
+      data: {
+        num: 0,
+      },
+      methods: {
+        update() {
+          this.num += 1;
+        },
+      },
+    });
+  </script>
 
 </html>
